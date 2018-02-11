@@ -1,3 +1,4 @@
+# [原作者Github地址](https://github.com/nfmcclure/tensorflow_cookbook)
 <img src="https://github.com/nfmcclure/tensorflow_cookbook/raw/master/images/book_covers.jpg" data-canonical-src="https://github.com/nfmcclure/tensorflow_cookbook/raw/master/images/book_covers.jpg" width="400" height="250" />
 
 # [TensorFlow Machine Learning Cookbook](https://www.packtpub.com/big-data-and-business-intelligence/tensorflow-machine-learning-cookbook)
