@@ -1,3 +1,5 @@
-
+/08_Convolutional_Neural_Networks/03_CNN_CIFAR10/temp/
+/08_Convolutional_Neural_Networks/04_Retraining_Current_Architectures/temp/
 *.xml
 *.iml
+*.ipynb

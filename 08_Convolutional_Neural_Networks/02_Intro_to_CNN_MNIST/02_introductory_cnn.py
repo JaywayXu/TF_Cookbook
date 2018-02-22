@@ -60,7 +60,7 @@ eval_input_shape = (evaluation_size, image_width, image_height, num_channels)
 eval_input = tf.placeholder(tf.float32, shape=eval_input_shape)
 eval_target = tf.placeholder(tf.int32, shape=(evaluation_size))
 
-# 声明模型超参数
+
 # conv1_weight表示第一层的权重，即为第一层的卷积核[卷积核高，卷积核宽，输入通道数量，输出通道数量]
 # 使用标准差为0.1的截断高斯分布进行变量初始化。注意通tf.Variable,此时的conv1_weight是一个变量。
 conv1_weight = tf.Variable(tf.truncated_normal([4, 4, num_channels, conv1_features],
