@@ -32,11 +32,11 @@ os.chdir(dname)  # 转换目录文件夹到上层
 sess = tf.Session()
 
 # 设置模型超参数
-batch_size = 128  # 批处理数量
+batch_size = 64  # 批处理数量
 data_dir = 'temp'  # 数据目录
 output_every = 50  # 输出训练loss值
-generations = 20000  # 迭代次数
-eval_every = 500  # 输出测试loss值
+generations = 100  # 迭代次数
+eval_every = 50  # 输出测试loss值
 image_height = 32  # 图片高度
 image_width = 32  # 图片宽度
 crop_height = 24  # 裁剪后图片高度
@@ -86,7 +86,6 @@ else:
     tarfile.open(filepath, 'r:gz').extractall(data_dir)
 
 
-# Define CIFAR reader
 # 定义CIFAR读取器
 def read_cifar_files(filename_queue, distort_images=True):
     reader = tf.FixedLengthRecordReader(record_bytes=record_length)
@@ -131,7 +130,6 @@ def read_cifar_files(filename_queue, distort_images=True):
     return (final_image, image_label)
 
 
-# Create a CIFAR image pipeline from reader
 # 从阅读器中构造CIFAR图片管道
 def input_pipeline(batch_size, train_logical=True):
     # train_logical标志用于区分读取训练和测试数据集
@@ -160,7 +158,6 @@ def input_pipeline(batch_size, train_logical=True):
     return (example_batch, label_batch)
 
 
-# Define the model architecture, this will return logits from images
 # 定义模型架构，返回图片的元素
 def cifar_cnn_model(input_images, batch_size, train_logical=True):
     # 截断高斯函数初始化化
@@ -285,7 +282,6 @@ def train_step(loss_value, generation_num):
     return (train_step)
 
 
-# Accuracy function
 # 精准度函数
 def accuracy_of_batch(logits, targets):
     # 去除多余的维度并确保target为int类型
@@ -306,7 +302,6 @@ images, targets = input_pipeline(batch_size, train_logical=True)
 # Get batch test images and targets from pipline
 test_images, test_targets = input_pipeline(batch_size, train_logical=False)
 
-# Declare Model
 # 声明模型
 print('Creating the CIFAR10 Model.')
 with tf.variable_scope('model_definition') as scope:
@@ -317,30 +312,26 @@ with tf.variable_scope('model_definition') as scope:
     scope.reuse_variables()
     test_output = cifar_cnn_model(test_images, batch_size)
 
-# Declare loss function
 # 声明损失函数
 print('Declare Loss Function.')
 loss = cifar_loss(model_output, targets)
 
-# Create accuracy functio
 # 创建精准度函数
 accuracy = accuracy_of_batch(test_output, test_targets)
 
-# Create training operations
+# 创建培训操作
 print('Creating the Training Operation.')
 generation_num = tf.Variable(0, trainable=False)
 train_op = train_step(loss, generation_num)
 
-# Initialize Variables
+# 初始化变量
 print('Initializing the Variables.')
 init = tf.global_variables_initializer()
 sess.run(init)
 
-# Initialize queue (This queue will feed into the model, so no placeholders necessary)
 # 初始化队列，所以不再需要使placeholders占位符提供数据
 tf.train.start_queue_runners(sess=sess)
 
-# Train CIFAR Model
 # 训练CIFAR模型
 print('Starting Training')
 train_loss = []
@@ -359,9 +350,7 @@ for i in range(generations):
         acc_output = ' --- Test Accuracy = {:.2f}%.'.format(100.*temp_accuracy)
         print(acc_output)
 
-# Print loss and accuracy
 # 打印损失函数和精准度函数
-# Matlotlib code to plot the loss and accuracies
 eval_indices = range(0, generations, eval_every)
 output_indices = range(0, generations, output_every)
 
